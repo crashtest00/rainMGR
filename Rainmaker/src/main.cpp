@@ -1,11 +1,12 @@
 #include <Arduino.h>
-
-// put function declarations here:
-int myFunction(int, int);
+#include "zones.h"
 
 void setup() {
-  // put your setup code here, to run once:
-  int result = myFunction(2, 3);
+  // Target irrigation amount per week
+  int target = 50;
+
+  // Number of irrigation events per week
+  int freq = 7;
 }
 
 void loop() {

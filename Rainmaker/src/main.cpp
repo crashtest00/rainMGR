@@ -11,7 +11,10 @@ int myFunction(int, int);
 
 // Setup runs on every wake!!
 void setup() {
-<<<<<<< HEAD
+  // Set target rainfall amount (server will handle the logic and pass a number)
+  // Create irrEvent object Object needs to return an array of irrigation OR have runZone function that handles 
+  // pinmode based on int passed to function. Protoype: runZone(zone=1,gpio=1) 
+
   // Target irrigation amount per week
   int target = 50;
 
@@ -27,7 +30,6 @@ void setup() {
   // What time does irrigation start? // TODO: Logic to handle multiple irrigation events each day
   // After irrigation runs, calculate next irrigation time (Maybe the server delivers this?)
   // Sleep until nextWake
->>>>>>> origin/main
 }
 
 void loop() {

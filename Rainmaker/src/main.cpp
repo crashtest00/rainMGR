@@ -21,8 +21,3 @@ void setup() {
 void loop() {
   // Do we even need a loop? What goes here?  
 }
-
-// put function definitions here:
-int myFunction(int x, int y) {
-  return x + y;
-}

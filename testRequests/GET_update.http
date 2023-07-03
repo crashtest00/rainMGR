@@ -1,0 +1,6 @@
+# Get Update Request
+GET http://192.168.1.168:3000/api/getUpdate HTTP/1.1
+content-type: application/json
+
+{
+}

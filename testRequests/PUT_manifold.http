@@ -1,0 +1,24 @@
+# Put Manifold Request
+# Endpoint hits manifold 1 OR 2
+# Consider adding MAC address to add some constraint
+PUT http://192.168.1.168:3000/api/manifolds/2 HTTP/1.1
+content-type: application/json
+
+[
+    {
+        "Zone": "1",
+        "duration": 2000
+    },
+    {
+        "Zone": "2",
+        "duration": 2000
+    },
+    {
+        "Zone": "3",
+        "duration": 2000
+    },
+    {
+        "Zone": "4",
+        "duration": 2000
+    }
+]

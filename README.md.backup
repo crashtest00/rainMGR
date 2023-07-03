@@ -1,0 +1,11 @@
+# rainMGR
+
+## Build Steps:
+1. Build new firmware
+2. Copy firmware.bin file from .pio/build/denky32
+3. Upload firmware.bin file to server 
+4. Rename firmware.bin to appropriate version number (e.g. `CONTROLLER-v0.1.bin`)
+5. Update JSON file to reflect most recent version number
+6. Update path in JSON file to reflect most recent version (tip: copy relative path!)
+
+Copy and paste wherever possible to ensure consistent and correct file naming!

@@ -3,6 +3,7 @@
 #include <WiFiClient.h>
 
 FirmwareUpdate::FirmwareUpdate() {
+  #define FORMAT_SPIFFS_IF_FAILED true
   SPIFFS.begin();
 }
 
@@ -45,7 +46,7 @@ bool FirmwareUpdate::isUpdateAvailable(float localVersion) {
 
   while (retryCount < maxRetryCount && !requestSuccessful) {
     // Connect to the server
-    if (http.begin("http://192.168.1.168:3000/api/getUpdate")) {
+    if (http.begin("http://192.168.1.90:3000/api/getUpdate")) {
       // Make the HTTP GET request
       int httpResponseCode = http.GET();
 

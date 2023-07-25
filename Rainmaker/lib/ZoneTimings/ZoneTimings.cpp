@@ -11,16 +11,14 @@ ZoneTimings::ZoneTimings() : zones({
     Zone(32, 21),
     Zone(33, 19),
     Zone(25, 18),
-    Zone(26, 5)
+    Zone(26, 4)
 }) {
     // Loop through all Zones to set pins to OUTPUT
     // Could improve this by going through "zones" and using the getPins method on each to make sure
     // these stay in sync. Would require refactoring the method to return int instead of string. Oh well.
-    int pins[] = {32, 21, 33, 19, 25, 18, 26, 5};
+    int pins[] = {32, 21, 33, 19, 25, 18, 26, 4};
     for (int i = 0; i < sizeof(pins)/sizeof(pins[0]); i++) {
-        Serial.print("Setting ON pin mode on pin " + String(pins[i]));
-        pinMode(pins[i], OUTPUT);
-        Serial.print("Setting OFF pin mode on pin " + String(pins[i]));
+        Serial.println("Setting pin mode on pin " + String(pins[i]));
         pinMode(pins[i], OUTPUT);
     }
 }
@@ -54,7 +52,7 @@ void ZoneTimings::runZones() {
         Serial.println(zones[i].pins());
 
         // Run zone for duration (in seconds)
-        // runIrrigation(zones[i].on, zone[i].off, duration)
+        runIrrigation(zones[i].on(), zones[i].off(), duration);
         
         //Increment zone number
         i++;
@@ -69,7 +67,7 @@ String ZoneTimings::getTimings() {
     Serial.println(macAddress);
 
     // Create the request URL
-    String url = "192.168.1.168/api/manifolds";
+    String url = "http://192.168.1.90:3000/api/manifolds";
 
     // Make the HTTP request to fetch the JSON list
     HTTPClient http;
@@ -96,15 +94,20 @@ void ZoneTimings::runIrrigation(int on, int off, unsigned int duration) {
     int solCycle = 250;
 
     // Turn on zone
+    Serial.println("Turning on zone");
     digitalWrite(on, HIGH);
     delay(solCycle);
     digitalWrite(on, LOW);
+    Serial.println("Zone is running");
 
     // Wait for duration, assumes seconds
     delay(duration * 1000);
 
     // Turn off zone
+    Serial.println("Turning off zone");
     digitalWrite(off, HIGH);
     delay(solCycle);
     digitalWrite(off, LOW);
+    Serial.println("Zone is off");
+    delay(1000);
 }

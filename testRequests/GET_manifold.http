@@ -1,6 +1,6 @@
 # Get manifold Request
 GET http://192.168.1.168:3000/api/manifolds HTTP/1.1
-mac-address: AA:BB:CC:DD:EE:FF
+mac-address: C8:F0:9E:4E:10:8C
 # mac-address: 11:22:33:44:55:66
 content-type: application/json
 

@@ -2,6 +2,7 @@
 #define ZoneTimings_h
 
 #include "Zone.h"
+#include <Arduino.h>
 
 class ZoneTimings {
 public:

@@ -1,5 +1,5 @@
 /* 
-VERSION 0.4
+VERSION 0.5
 */
 
 #include <Arduino.h>
@@ -11,7 +11,9 @@ VERSION 0.4
 #define uS_TO_S_FACTOR 1000000  
 RTC_DATA_ATTR int rtcPersist = 0; // Prototype for storing information in persistant RTC mem
 
-float VERSION = 0.4;
+float VERSION = 0.5;
+String domain = "http://rainmaker.home";
+int port = 3000;
 
 // Note: Setup runs on every wake!!
 void setup() {
@@ -28,14 +30,10 @@ void setup() {
   wifiConnect.connect();
 
   // Check for updates
-  FirmwareUpdate checkForUpdates;
+  FirmwareUpdate checkForUpdates(domain, port);
   checkForUpdates.update(VERSION);
 
-}
-
-// Used for bench testing. Move to main when it works
-void loop() {  
-  WiFiConnection connectionCheck;
+    WiFiConnection connectionCheck;
   time_t currentTime = time(nullptr);
   Serial.print("ESP is running! Current time is: ");
   Serial.println(currentTime);
@@ -44,14 +42,15 @@ void loop() {
 
   // Run irrigation for zones
   Serial.println("Running zones");
-  ZoneTimings runZones;
+  ZoneTimings runZones(domain, port);
   runZones.runZones();
-  NextRun nextRun;
+  NextRun nextRun(domain, port);
   
-  int deepSleep = nextRun.delayUntil();
+  u64_t deepSleep = nextRun.delayUntil();
+  // u64_t deepSleep = 2148; // 32 vs 64 bit testing. 32 bit overflows at 2148 and higher.
   Serial.print("Next run in ");
-  Serial.print(deepSleep);
-  Serial.println(" seconds");
+  Serial.print(deepSleep * uS_TO_S_FACTOR);
+  Serial.println(" microseconds");
   esp_sleep_enable_timer_wakeup(deepSleep * uS_TO_S_FACTOR);
   Serial.flush();
   delay(1000);
@@ -59,3 +58,5 @@ void loop() {
   Serial.flush();
   esp_deep_sleep_start();
 }
+
+void loop() {}

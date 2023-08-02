@@ -6,10 +6,12 @@
 
 class ZoneTimings {
 public:
-    ZoneTimings();
+    ZoneTimings(String, int);
     void runZones();    
 
 private:
+    String host;
+    int port;
     String getTimings();
     std::array<Zone, 4> zones; // This needs set to the max number of zones
     void runIrrigation(int, int, unsigned int);

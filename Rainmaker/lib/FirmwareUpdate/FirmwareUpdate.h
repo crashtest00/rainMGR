@@ -4,15 +4,15 @@
 #include <Arduino.h>
 #include <HTTPClient.h>
 #include <HTTPUpdate.h>
-#include <SPIFFS.h>
-
 class FirmwareUpdate {
 public:
-  FirmwareUpdate();
+  FirmwareUpdate(String, int);
   void update(float);
 
 
 private:
+  String host;
+  int port;
   String firmwarePath;
   String filesystemPath;
   bool isUpdateAvailable(float);

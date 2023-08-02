@@ -5,11 +5,12 @@
 
 class NextRun {
 public:
-    NextRun();
+    NextRun(String, int);
     int delayUntil();
 
 private:
-    String getDelay();
+    String host;
+    int port;
 
 };
 

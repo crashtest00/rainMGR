@@ -7,7 +7,7 @@
 
 // Constructor requires valid pin pairs for each zone
 // Make sure the length of this array matches the header file!
-ZoneTimings::ZoneTimings() : zones({
+ZoneTimings::ZoneTimings(String domain, int srvPort) : zones({
     Zone(32, 21),
     Zone(33, 19),
     Zone(25, 18),
@@ -21,6 +21,9 @@ ZoneTimings::ZoneTimings() : zones({
         Serial.println("Setting pin mode on pin " + String(pins[i]));
         pinMode(pins[i], OUTPUT);
     }
+
+    host = domain;
+    port = srvPort;
 }
 
 void ZoneTimings::runZones() {
@@ -67,7 +70,7 @@ String ZoneTimings::getTimings() {
     Serial.println(macAddress);
 
     // Create the request URL
-    String url = "http://192.168.1.90:3000/api/manifolds";
+    String url = host + ":" + port + "/api/manifolds";
 
     // Make the HTTP request to fetch the JSON list
     HTTPClient http;

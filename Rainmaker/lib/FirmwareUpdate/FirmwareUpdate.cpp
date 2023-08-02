@@ -2,9 +2,11 @@
 #include <ArduinoJson.h>
 #include <WiFiClient.h>
 
-FirmwareUpdate::FirmwareUpdate() {
-  #define FORMAT_SPIFFS_IF_FAILED true
-  SPIFFS.begin();
+FirmwareUpdate::FirmwareUpdate(String domain, int srvPort) {
+  // #define FORMAT_SPIFFS_IF_FAILED true
+  // SPIFFS.begin();
+  port = srvPort;
+  host = domain;
 }
 
 void FirmwareUpdate::update(float localVersion) {
@@ -14,8 +16,8 @@ void FirmwareUpdate::update(float localVersion) {
 
     Serial.print(F("Retrieving new firmware from "));
     Serial.println(firmwarePath);
-
-    t_httpUpdate_return ret = httpUpdate.update(client, "192.168.1.168", 3000, firmwarePath);
+    delay(1000);
+    t_httpUpdate_return ret = httpUpdate.update(client, host, port, firmwarePath);
 
     switch (ret) {
       case HTTP_UPDATE_FAILED:
@@ -43,10 +45,9 @@ bool FirmwareUpdate::isUpdateAvailable(float localVersion) {
   int retryCount = 0;
   const int maxRetryCount = 3;
   bool requestSuccessful = false;
-
   while (retryCount < maxRetryCount && !requestSuccessful) {
     // Connect to the server
-    if (http.begin("http://192.168.1.90:3000/api/getUpdate")) {
+    if (http.begin(host + ":" + port + "/api/getUpdate")) {
       // Make the HTTP GET request
       int httpResponseCode = http.GET();
 

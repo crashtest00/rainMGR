@@ -4,13 +4,16 @@
 #include <WiFiClient.h>
 #include <ArduinoHttpClient.h>
 
-NextRun::NextRun() {}
+NextRun::NextRun(String domain, int srvPort) {
+    host = domain;
+    port = srvPort;
+}
 
 int NextRun::delayUntil() {
     HTTPClient http;
 
     // Make the HTTP GET request to fetch the time difference in seconds
-    if (http.begin("http://192.168.1.90:3000/api/nextrun")) {
+    if (http.begin(host + ":" + port + "/api/nextrun")) {
         int httpResponseCode = http.GET();
 
         if (httpResponseCode == HTTP_CODE_OK) {
@@ -32,27 +35,4 @@ int NextRun::delayUntil() {
         Serial.println(F("Failed to connect to the server"));
         return 0; // Return an error value or handle the error accordingly
     }
-}
-
-// Private function to get the timings from the server
-String NextRun::getDelay() {
-
-    // Create the request URL
-    String url = "http://192.168.1.168:3000/api/nextrun";
-
-    // Make the HTTP request to fetch the JSON list
-    HTTPClient http;
-    http.begin(url);
-
-    int httpResponseCode = http.GET();
-    if (httpResponseCode == HTTP_CODE_OK) {
-        String jsonResponse = http.getString();
-        return jsonResponse;
-    } else {
-        Serial.print("HTTP GET request failed, error code: ");
-        Serial.println(httpResponseCode);
-    }
-
-    http.end();
-    return "";
 }
